@@ -13,6 +13,7 @@ DetRec-ID/
 │
 ├── ID-stream.py      # 实现车厢号识别的主功能
 ├── ID-call.py        # 用于调用识别API的客户端脚本
+├── requirments.txt   # 配置要求
 └── README.md         # 项目说明文档
 ```
 
@@ -37,7 +38,7 @@ DetRec-ID/
 1. 克隆本项目到本地：
 
     ```bash
-    git clone https://github.com/your-username/DetRec-ID.git
+    git clone https://github.com/ZKHYDataScience/coal-truck-vision-suite.git
     ```
 
 2. 安装所需的依赖项：

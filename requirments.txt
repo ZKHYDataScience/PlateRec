@@ -1,0 +1,10 @@
+fastapi==0.95.1
+uvicorn==0.18.3
+ultralytics==8.0.20
+paddleocr==2.6.1
+pillow==9.5.0
+opencv-python==4.7.0.72
+torch==2.0.1
+paddlepaddle-gpu==2.5.0.post117  # Ensure compatibility with your GPU
+requests==2.31.0
+numpy==1.24.3

@@ -37,7 +37,7 @@ DetRec-ID/
 1. 克隆本项目到本地：
 
     ```bash
-    git clone https://github.com/your-username/DetRec-ID.git
+    git clone https://github.com/ZKHYDataScience/coal-truck-vision-suite.git
     ```
 
 2. 安装所需的依赖项：

@@ -69,6 +69,7 @@ def process_video(video_dir):
     
     frame_count = 0
     best_result = None
+    successful_detections = 0
     
     while cap.isOpened():
         ret, frame = cap.read()
@@ -112,13 +113,13 @@ def process_video(video_dir):
                                 best_result = result_text
                                 first_crop.save(f"first_frame_{frame_count}_{result_text}.jpg")
                                 print(f"{result_text}")
+                                
+                            successful_detections += 1
+                            
+                            if successful_detections >= 10:
+                                cap.release()
+                                return best_result
 
-                            #result_text = ''.join(sorted_texts)
-                            #cap.release()
-                            #return result_text
-
-
-    
     cap.release()
     return best_result
 

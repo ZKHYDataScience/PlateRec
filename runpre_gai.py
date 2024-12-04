@@ -30,6 +30,7 @@ ocr = PaddleOCR(
 )
 
 def process_frame_with_yolo_v2(img_pil):
+    """Process image with YOLOv8v2 and return cropped images and positions."""
     results_yolo_v2 = yolo_model_v2(img_pil)
     crops_with_positions = []
 
@@ -140,9 +141,10 @@ def process_video(video_dir):
 
 @app.get("/process_videos/")
 async def process_video_endpoint(
-    video_file: str = Query(..., description="Path to the video file"),
-    out_path: str = Query(..., description="Path to save recognition results")
+    video_file: str = Query(r"D:\company\HuangHuaGang\video\2024-08-01-14-37-51.mp4", description="Path to the video file"),
+    out_path: str = Query(r"D:\BaiduNetdiskDownload\deploy\input\res", description="Path to save recognition results")
 ):
+    """API endpoint to process video and return recognition results."""
     text_result_info = process_video(video_file)
 
     os.makedirs(out_path, exist_ok=True)
@@ -153,7 +155,7 @@ async def process_video_endpoint(
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False)
 
-    return JSONResponse(content={"result": result})
+    return JSONResponse(result)
 
 if __name__ == "__main__":
     import uvicorn

@@ -110,8 +110,8 @@ def process_video(video_dir):
                             
                             if best_result is None:
                                 best_result = result_text
-                                first_crop.save(str(frame_count)+'_'+aa+'.jpg')
-                                print(''.join(sorted_texts) )
+                                first_crop.save(f"first_frame_{frame_count}_{result_text}.jpg")
+                                print(f"{result_text}")
 
                             #result_text = ''.join(sorted_texts)
                             #cap.release()
@@ -120,7 +120,7 @@ def process_video(video_dir):
 
     
     cap.release()
-    return ""
+    return best_result
 
 
 def detect_text(video_dir,out_path):
@@ -139,7 +139,7 @@ def detect_text(video_dir,out_path):
     #     with open(os.path.join(out_path, "detection_results.json"), 'w', encoding='utf-8') as f:
     #         json.dump(result, f, ensure_ascii=False)
     #     return JSONResponse(content=result)
-    
+
     # 处理视频
     text_result = process_video(video_dir)
     

@@ -65,7 +65,7 @@ def is_valid_text(result_text):
         return False
     if not re.search(r'[A-Za-z]', result_text):  
         return False
-    if not re.search(r'[0-9]', result_text):  
+    if not re.search(r'[0-9]', result_text): 
         return False
     return True
 
@@ -149,7 +149,11 @@ async def process_video_endpoint(
 
     os.makedirs(out_path, exist_ok=True)
 
-    result = [text_result_info['text']] if text_result_info and text_result_info['text'] else []
+    if not text_result_info or not text_result_info['text']:
+        result = ["无车号正确识别结果"]
+    else:
+        result = [text_result_info['text']]
+    # result = [text_result_info['text']] if text_result_info and text_result_info['text'] else []
 
     output_file = os.path.join(out_path, "detection_results.json")
     with open(output_file, 'w', encoding='utf-8') as f:

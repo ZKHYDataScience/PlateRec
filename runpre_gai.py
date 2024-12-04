@@ -80,6 +80,7 @@ def process_video(video_dir):
         return ""
     
     frame_count = 0
+    detections = []
     best_result = None
     successful_detections = 0
     
@@ -115,23 +116,34 @@ def process_video(video_dir):
                             text = ocr.ocr(enhanced_img_np, cls=False,det=False)
                             # text = run_paddleocr_on_image(crop)
                             if text:
-                                texts_with_positions.append((text[0][0][0], position))
+                                detected_text = text[0][0][0]
+                                confidence_score = text[0][0][1]
+                                texts_with_positions.append((detected_text, confidence_score, position))
                         
                         if texts_with_positions:
                             sorted_texts = sort_text_by_position(texts_with_positions)
                             result_text = ''.join(sorted_texts)
                             
                             if is_valid_text(result_text):
-                                if best_result is None:
-                                    best_result = result_text  
-                                successful_detections += 1
-                            
-                                if successful_detections >= 10:
+                                detections.append((result_text, np.mean([t[1] for t in texts_with_positions])))
+                                
+                                if len(detections) >= 10:
                                     cap.release()
-                                    return best_result
+                                    return max(detections, key=lambda x: x[1])[0]
+
+                                # if best_result is None:
+                                #     best_result = result_text  
+                                # successful_detections += 1
+                            
+                                # if successful_detections >= 10:
+                                #     cap.release()
+                                #     return best_result
 
     cap.release()
-    return best_result
+    
+    if detections:
+        return max(detections, key=lambda x: x[1])[0]
+    # return best_result
 
 
 def detect_text(video_dir,out_path):

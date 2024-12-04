@@ -107,11 +107,12 @@ def process_video(video_dir):
                             sorted_texts = sort_text_by_position(texts_with_positions)
                             aa = ''.join(sorted_texts)
                             first_crop.save(str(frame_count)+'_'+aa+'.jpg')
+                            print(''.join(sorted_texts) )
+
                             result_text = ''.join(sorted_texts)
                             cap.release()
                             return result_text
 
-                            print(''.join(sorted_texts) )
 
     
     cap.release()

@@ -61,6 +61,18 @@ def sort_text_by_position(texts_with_positions):
     
     return [text[0] for text in sorted_by_y]
 
+def is_valid_text(result_text):
+    """验证识别出的文本是否符合条件"""
+    if not (9 <= len(result_text) <= 15):  # 字符串长度限制
+        return False
+    if not re.match(r'^[A-Za-z0-9 ]+$', result_text):  # 包含字母、数字或空格
+        return False
+    if not re.search(r'[A-Za-z]', result_text):  # 必须有字母
+        return False
+    if not re.search(r'[0-9]', result_text):  # 必须有数字
+        return False
+    return True
+
 def process_video(video_dir):
     """处理单个视频文件"""
     cap = cv2.VideoCapture(video_dir)
@@ -109,16 +121,14 @@ def process_video(video_dir):
                             sorted_texts = sort_text_by_position(texts_with_positions)
                             result_text = ''.join(sorted_texts)
                             
-                            if best_result is None:
-                                best_result = result_text
-                                first_crop.save(f"first_frame_{frame_count}_{result_text}.jpg")
-                                print(f"{result_text}")
-                                
-                            successful_detections += 1
+                            if is_valid_text(result_text):
+                                if best_result is None:
+                                    best_result = result_text  
+                                successful_detections += 1
                             
-                            if successful_detections >= 10:
-                                cap.release()
-                                return best_result
+                                if successful_detections >= 10:
+                                    cap.release()
+                                    return best_result
 
     cap.release()
     return best_result

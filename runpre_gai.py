@@ -68,6 +68,7 @@ def process_video(video_dir):
         return ""
     
     frame_count = 0
+    best_result = None
     
     while cap.isOpened():
         ret, frame = cap.read()
@@ -105,13 +106,16 @@ def process_video(video_dir):
                         
                         if texts_with_positions:
                             sorted_texts = sort_text_by_position(texts_with_positions)
-                            aa = ''.join(sorted_texts)
-                            first_crop.save(str(frame_count)+'_'+aa+'.jpg')
-                            print(''.join(sorted_texts) )
-
                             result_text = ''.join(sorted_texts)
-                            cap.release()
-                            return result_text
+                            
+                            if best_result is None:
+                                best_result = result_text
+                                first_crop.save(str(frame_count)+'_'+aa+'.jpg')
+                                print(''.join(sorted_texts) )
+
+                            #result_text = ''.join(sorted_texts)
+                            #cap.release()
+                            #return result_text
 
 
     
